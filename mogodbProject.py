@@ -6,8 +6,8 @@ from pymongo import MongoClient
 connection = MongoClient()
 
 # Getting a Database
-db = connection['city']
-collection = db['inspections']
+db = connection['myDb']
+collection = db['collection']
 
 # ============================================== Create Docs
 def insert_document(document):
