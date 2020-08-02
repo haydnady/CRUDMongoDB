@@ -67,11 +67,12 @@ def main():
   
     while True:
       print("==========================================================")
-      userInput = input("1 - Create")
-      userInput = input("2 - Read")
-      userInput = input("3 - Update")
-      userInput = input("4 - Delete")
-      userInput = input("5 - Exit")
+      print("1 - Create")
+      print("2 - Read")
+      print("3 - Update")
+      print("4 - Delete")
+      print("5 - Exit")
+      userInput = int(input("Enter number choice: "))
       
       # Create
       if userInput == 1:
@@ -82,13 +83,14 @@ def main():
         
       # Read
       elif userInput == 2:
-        userInputDoc = input("Enter document to create: \n")
+        userInputDoc = input("Enter \"_id\" of document to be read: \n")
         # Prints JSON of read document
         print("2. Read Document:\n", json.dumps(result, indent = 4))
         print("--------------------------------------")
         
       # Update
       elif userInput == 3:
+        userInputDoc = input("Enter document to update: \n")
         result= update_document({"_id" : 35445565655}, {"name" : "Updated Value UPDATED"})
         # Prints JSON of updated document
         print("3. Updated Document:\n", json.dumps(result, indent = 4))
@@ -96,6 +98,7 @@ def main():
         
       # Delete  
       elif userInput == 4: 
+        userInputDoc = input("Enter \"_id\" of document to be deleted: \n")
         result = delete_document({"_id" : 35445565655})
         # Prints "JSON" (null, none) of deleted document
         print("4. Delete Document:\n", json.dumps(result, indent = 4))
