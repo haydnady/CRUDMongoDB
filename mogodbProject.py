@@ -51,13 +51,13 @@ def delete_document(document):
     status = True
 
     try:
-        collection.delete_many(document)
+        collection.delete_one(document)
 
     except Exception as e:
         print("\n\t -->", e)
         status = False
         
-    return result
+    return status
   
 # ============================================== Main
 def main():
@@ -89,7 +89,7 @@ def main():
         userInputDoc = input("Enter document \"_id\" to update (i.e {\"_id\" : 355}): \n")
         userInputDoc2 =  input("Enter update (i.e. {\"name\" : \"Updated Value UPDATED\"}): \n")
         status = update_document(json.loads(userInputDoc), json.loads(userInputDoc2))
-        print("Document Updated:", status)
+        print("\nDocument Updated:", status)
         
       # Delete  
       elif userInput == 4: 
@@ -103,7 +103,7 @@ def main():
       
       # Default
       else:
-        print("Option not valid, enter a number from 1 to 4: ")      
+        print("Option not valid, enter a number from 1 to 5: ")      
 
       
 #//////////////
