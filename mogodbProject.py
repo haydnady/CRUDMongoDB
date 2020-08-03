@@ -13,16 +13,15 @@ collection = db["inspections"]   #//
 
 # ============================================== Create Docs
 def insert_document(document):
-    result = ""
     status = True
 
     try:
-        result = collection.insert_one(document)
+        collection.insert_one(document)
     except Exception as e:
-        print("\nERROR insert_document:", e)
+        print("\n\t -->", e)
         status = False
         
-    return result, status
+    return status
 
 # ============================================== Read Docs
 def read_document(document):
@@ -31,34 +30,32 @@ def read_document(document):
     try:
         result = collection.find_one(document)
     except Exception as e:
-        print("\nERROR read_document:", e)
-        result = "Failed to retrieve data"
+        print("\n\t -->", e)
     
     return result
   
 # ============================================== Update Docs
 def update_document(document, update):
-    result = ""
+    status = True
 
     try:
         collection.update_one(document, {"$set" : update})
-        result = collection.find_one(document)
     except Exception as e:
-        print("\nERROR update_document:", e)
-        result = "Failed to update data"
+        print("\n\t -->", e)
+        status = False
         
-    return result
+    return status
   
 # ============================================== Delete Docs
 def delete_document(document):
-    result = ""
+    status = True
 
     try:
         collection.delete_many(document)
-        result = collection.find_one(document)
+
     except Exception as e:
-        print("\nERROR delete_document:", e)
-        result = "Failed to delete data"
+        print("\n\t -->", e)
+        status = False
         
     return result
   
@@ -71,38 +68,34 @@ def main():
       print("2 - Read")
       print("3 - Update")
       print("4 - Delete")
-      print("5 - Exit")
+      print("5 - Exit\n")
       userInput = int(input("Enter number choice: "))
       
       # Create
       if userInput == 1:
-        userInputDoc = input("Enter document to create: \n")
-        result, status = insert_document(myDocument)
-        print("\n1. Document Created:", status) # Prints status of inserted data (True/False)
-        print("--------------------------------------")
+        userInputDoc = input("Enter document to create (i.e. {\"_id\" : 355, \"name\" : \"test\"}): \n")
+        status = insert_document(json.loads(userInputDoc))
+        print("\nDocument Created:", status)
         
       # Read
       elif userInput == 2:
-        userInputDoc = input("Enter \"_id\" of document to be read: \n")
-        # Prints JSON of read document
-        print("2. Read Document:\n", json.dumps(result, indent = 4))
-        print("--------------------------------------")
+        userInputDoc = input("Enter \"_id\" of document to be read (i.e {\"_id\" : 355}): \n")
+        result = read_document(json.loads(userInputDoc))
+        # Prints JSON of read document.
+        print("\nRead Document:\n" + json.dumps(result, indent = 4))
         
       # Update
       elif userInput == 3:
-        userInputDoc = input("Enter document to update: \n")
-        result= update_document({"_id" : 35445565655}, {"name" : "Updated Value UPDATED"})
-        # Prints JSON of updated document
-        print("3. Updated Document:\n", json.dumps(result, indent = 4))
-        print("--------------------------------------")
+        userInputDoc = input("Enter document \"_id\" to update (i.e {\"_id\" : 355}): \n")
+        userInputDoc2 =  input("Enter update (i.e. {\"name\" : \"Updated Value UPDATED\"}): \n")
+        status = update_document(json.loads(userInputDoc), json.loads(userInputDoc2))
+        print("Document Updated:", status)
         
       # Delete  
       elif userInput == 4: 
-        userInputDoc = input("Enter \"_id\" of document to be deleted: \n")
-        result = delete_document({"_id" : 35445565655})
-        # Prints "JSON" (null, none) of deleted document
-        print("4. Delete Document:\n", json.dumps(result, indent = 4))
-        print("--------------------------------------")
+        userInputDoc = input("Enter \"_id\" of document to be deleted (i.e {\"_id\" : 355}): \n")
+        status = delete_document(json.loads(userInputDoc))
+        print("Document Deleted:", status)
         
       # Exit  
       elif userInput == 5:
